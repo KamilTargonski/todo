@@ -45,33 +45,43 @@ function App() {
 
     return (
       <div className="App">
-          <input type="text" value={value} onChange={handleInput} onKeyUp={handleAddTask}/>
-          <ul className="tasks">
-              {tasks
-                  .filter((task) => filters === 'all' ? true : task.status === filters)
-                  .map((task) => (
-                      <li key={task.id} className="task">
-                       <span className={task.status ? 'status active' : 'status'}
-                             onClick={() => {handleChangeStatus(task)}}></span>
-                       <span>{task.name}</span>
-                       <button className="task-delete" onClick={() => handleDelete(task)}>x</button>
-                      </li>
-                ))}
-          </ul>
+          <section className="todoapp">
 
-           <div>
-              {tasks.filter((task) => !task.status).length}items left
-           </div>
+              <header className="header">
+                 <input className="what-todo" type="text" value={value} onChange={handleInput} onKeyUp={handleAddTask} placeholder="What needs to be done?"/>
+              </header>
 
-          <div>
-              <button className={filters === 'all' ? 'filter_active' : ''} onClick={() => setFilters('all')}>All</button>
-              <button className={filters === false ? 'filter_active' : ''} onClick={() => setFilters(false)}>Active</button>
-              <button className={filters === true ? 'filter_active' : ''} onClick={() => setFilters(true)}>Completed</button>
-          </div>
+              <section className="main">
+                  <ul className="tasks">
+                      {tasks
+                          .filter((task) => filters === 'all' ? true : task.status === filters)
+                          .map((task) => (
+                              <li key={task.id} className="task">
+                               <span className={task.status ? 'status active' : 'status'}
+                                     onClick={() => {handleChangeStatus(task)}}></span>
+                               <span className="span-task">{task.name}</span>
+                               <button className="task-delete" onClick={() => handleDelete(task)}>x</button>
+                              </li>
+                        ))}
+                  </ul>
+              </section>
 
-          <div>
-              <button onClick={handleDeleteCompleted}>Clear completed</button>
-          </div>
+              <footer className="footer">
+                  <div className="todo-count">
+                      {tasks.filter((task) => !task.status).length} items left
+                  </div>
+
+                  <div className="filters">
+                      <button className={filters === 'all' ? 'filter_active' : ''} onClick={() => setFilters('all')}>All</button>
+                      <button className={filters === false ? 'filter_active' : ''} onClick={() => setFilters(false)}>Active</button>
+                      <button className={filters === true ? 'filter_active' : ''} onClick={() => setFilters(true)}>Completed</button>
+                  </div>
+
+                  <div>
+                      <button className={tasks.some((task) => task.status) === true ? "clear-completed" : "none"} onClick={handleDeleteCompleted}>Clear completed</button>
+                  </div>
+              </footer>
+          </section>
       </div>
     );
 }
